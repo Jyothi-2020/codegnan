@@ -1,5 +1,5 @@
 user_info = {
-    "name": "Girisha",
+    "name": "jyothi",
     "pin": "2200",
     "balance": 50000
 }
