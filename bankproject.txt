@@ -1,0 +1,1550 @@
+mysql> CREATE DATABASE bank_system;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> USE bank_system;
+Database changed
+mysql> CREATE TABLE Branches (
+    ->     BranchID INT PRIMARY KEY AUTO_INCREMENT,
+    ->     BranchName VARCHAR(100),
+    ->     City VARCHAR(50)
+    -> );
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> CREATE TABLE Customers (
+    ->     CustomerID INT PRIMARY KEY AUTO_INCREMENT,
+    ->     Name VARCHAR(100),
+    ->     Age INT,
+    ->     Phone VARCHAR(15),
+    ->     Address VARCHAR(255)
+    -> );
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> CREATE TABLE Employees (
+    ->     EmployeeID INT PRIMARY KEY AUTO_INCREMENT,
+    ->     Name VARCHAR(100),
+    ->     Position VARCHAR(50),
+    ->     Salary DECIMAL(10,2),
+    ->     BranchID INT,
+    ->     FOREIGN KEY (BranchID) REFERENCES Branches(BranchID)
+    -> );
+Query OK, 0 rows affected (0.16 sec)
+
+mysql> CREATE TABLE Accounts (
+    ->     AccountID INT PRIMARY KEY AUTO_INCREMENT,
+    ->     CustomerID INT,
+    ->     BranchID INT,
+    ->     AccountType VARCHAR(20),
+    ->     Balance DECIMAL(12,2) DEFAULT 0,
+    ->     FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID),
+    ->     FOREIGN KEY (BranchID) REFERENCES Branches(BranchID)
+    -> );
+Query OK, 0 rows affected (0.18 sec)
+
+mysql> CREATE TABLE Loans (
+    ->     LoanID INT PRIMARY KEY AUTO_INCREMENT,
+    ->     CustomerID INT,
+    ->     BranchID INT,
+    ->     LoanAmount DECIMAL(12,2),
+    ->     InterestRate DECIMAL(5,2),
+    ->     LoanStatus VARCHAR(20),
+    ->     FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID),
+    ->     FOREIGN KEY (BranchID) REFERENCES Branches(BranchID)
+    -> );
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> INSERT INTO Branches (BranchName, City) VALUES
+    -> ('Main Branch', 'Hyderabad'),
+    -> ('City Branch', 'Delhi'),
+    -> ('Central Branch', 'Mumbai'),
+    -> ('North Branch', 'Chennai'),
+    -> ('South Branch', 'Bangalore'),
+    -> ('East Branch', 'Kolkata'),
+    -> ('West Branch', 'Pune'),
+    -> ('Lake View Branch', 'Bhopal'),
+    -> ('Hill Top Branch', 'Shimla'),
+    -> ('River Side Branch', 'Varanasi'),
+    -> ('Metro Branch', 'Ahmedabad'),
+    -> ('Capital Branch', 'Jaipur'),
+    -> ('Tech Park Branch', 'Hyderabad'),
+    -> ('Industrial Branch', 'Surat'),
+    -> ('Market Branch', 'Lucknow'),
+    -> ('Garden Branch', 'Mysore'),
+    -> ('Airport Branch', 'Delhi'),
+    -> ('Station Branch', 'Nagpur'),
+    -> ('City Center Branch', 'Indore'),
+    -> ('Plaza Branch', 'Chandigarh'),
+    -> ('Prime Branch', 'Noida'),
+    -> ('Sector 1 Branch', 'Gurgaon'),
+    -> ('Sector 2 Branch', 'Faridabad'),
+    -> ('Sector 3 Branch', 'Ghaziabad'),
+    -> ('Ring Road Branch', 'Hyderabad'),
+    -> ('Old Town Branch', 'Madurai'),
+    -> ('New Town Branch', 'Kochi'),
+    -> ('Beach Branch', 'Visakhapatnam'),
+    -> ('Port Branch', 'Mangalore'),
+    -> ('Temple Branch', 'Tirupati'),
+    -> ('IT Hub Branch', 'Bangalore'),
+    -> ('Finance Branch', 'Mumbai'),
+    -> ('Gold Branch', 'Coimbatore'),
+    -> ('Silver Branch', 'Salem'),
+    -> ('Diamond Branch', 'Rajkot'),
+    -> ('Heritage Branch', 'Udaipur'),
+    -> ('Lake City Branch', 'Bhopal'),
+    -> ('Smart City Branch', 'Amaravati'),
+    -> ('Green City Branch', 'Trivandrum'),
+    -> ('Blue City Branch', 'Jodhpur'),
+    -> ('Pink City Branch', 'Jaipur'),
+    -> ('Orange City Branch', 'Nagpur'),
+    -> ('Steel City Branch', 'Jamshedpur'),
+    -> ('Coal City Branch', 'Dhanbad'),
+    -> ('Education Branch', 'Manipal'),
+    -> ('Medical Branch', 'Vellore'),
+    -> ('Defense Branch', 'Pune'),
+    -> ('Agri Branch', 'Warangal'),
+    -> ('Export Branch', 'Tuticorin'),
+    -> ('Import Branch', 'Kandla');
+Query OK, 50 rows affected (0.04 sec)
+Records: 50  Duplicates: 0  Warnings: 0
+
+mysql> select * from branches;
++----------+--------------------+---------------+
+| BranchID | BranchName         | City          |
++----------+--------------------+---------------+
+|        1 | Main Branch        | Hyderabad     |
+|        2 | City Branch        | Delhi         |
+|        3 | Central Branch     | Mumbai        |
+|        4 | North Branch       | Chennai       |
+|        5 | South Branch       | Bangalore     |
+|        6 | East Branch        | Kolkata       |
+|        7 | West Branch        | Pune          |
+|        8 | Lake View Branch   | Bhopal        |
+|        9 | Hill Top Branch    | Shimla        |
+|       10 | River Side Branch  | Varanasi      |
+|       11 | Metro Branch       | Ahmedabad     |
+|       12 | Capital Branch     | Jaipur        |
+|       13 | Tech Park Branch   | Hyderabad     |
+|       14 | Industrial Branch  | Surat         |
+|       15 | Market Branch      | Lucknow       |
+|       16 | Garden Branch      | Mysore        |
+|       17 | Airport Branch     | Delhi         |
+|       18 | Station Branch     | Nagpur        |
+|       19 | City Center Branch | Indore        |
+|       20 | Plaza Branch       | Chandigarh    |
+|       21 | Prime Branch       | Noida         |
+|       22 | Sector 1 Branch    | Gurgaon       |
+|       23 | Sector 2 Branch    | Faridabad     |
+|       24 | Sector 3 Branch    | Ghaziabad     |
+|       25 | Ring Road Branch   | Hyderabad     |
+|       26 | Old Town Branch    | Madurai       |
+|       27 | New Town Branch    | Kochi         |
+|       28 | Beach Branch       | Visakhapatnam |
+|       29 | Port Branch        | Mangalore     |
+|       30 | Temple Branch      | Tirupati      |
+|       31 | IT Hub Branch      | Bangalore     |
+|       32 | Finance Branch     | Mumbai        |
+|       33 | Gold Branch        | Coimbatore    |
+|       34 | Silver Branch      | Salem         |
+|       35 | Diamond Branch     | Rajkot        |
+|       36 | Heritage Branch    | Udaipur       |
+|       37 | Lake City Branch   | Bhopal        |
+|       38 | Smart City Branch  | Amaravati     |
+|       39 | Green City Branch  | Trivandrum    |
+|       40 | Blue City Branch   | Jodhpur       |
+|       41 | Pink City Branch   | Jaipur        |
+|       42 | Orange City Branch | Nagpur        |
+|       43 | Steel City Branch  | Jamshedpur    |
+|       44 | Coal City Branch   | Dhanbad       |
+|       45 | Education Branch   | Manipal       |
+|       46 | Medical Branch     | Vellore       |
+|       47 | Defense Branch     | Pune          |
+|       48 | Agri Branch        | Warangal      |
+|       49 | Export Branch      | Tuticorin     |
+|       50 | Import Branch      | Kandla        |
++----------+--------------------+---------------+
+50 rows in set (0.00 sec)
+
+mysql> INSERT INTO Customers (Name, Age, Phone, Address) VALUES
+    -> ('Neha Priya', 21, '9876543210', 'Hyderabad'),
+    -> ('Rahul Sharma', 25, '9123456780', 'Delhi'),
+    -> ('Amit Kumar', 30, '9012345678', 'Mumbai'),
+    -> ('Sneha Reddy', 22, '9988776655', 'Chennai'),
+    -> ('Vikram Singh', 28, '9090909090', 'Bangalore'),
+    -> ('Pooja Mehta', 24, '9876501234', 'Kolkata'),
+    -> ('Arjun Verma', 27, '9123409876', 'Pune'),
+    -> ('Kiran Rao', 29, '9345678901', 'Hyderabad'),
+    -> ('Anjali Gupta', 23, '9988123456', 'Jaipur'),
+    -> ('Rohit Das', 26, '9765432109', 'Ahmedabad'),
+    -> ('Suresh Patel', 35, '9876123450', 'Surat'),
+    -> ('Meena Iyer', 31, '9001122334', 'Chennai'),
+    -> ('Naveen Kumar', 33, '9011223344', 'Bangalore'),
+    -> ('Divya Sharma', 22, '9022334455', 'Delhi'),
+    -> ('Karthik R', 28, '9033445566', 'Hyderabad'),
+    -> ('Priya Singh', 24, '9044556677', 'Lucknow'),
+    -> ('Manoj Tiwari', 36, '9055667788', 'Varanasi'),
+    -> ('Ritika Jain', 27, '9066778899', 'Indore'),
+    -> ('Ajay Yadav', 32, '9077889900', 'Patna'),
+    -> ('Swathi N', 23, '9088990011', 'Mysore'),
+    -> ('Deepak Mishra', 34, '9099001122', 'Bhopal'),
+    -> ('Kavya S', 21, '9100112233', 'Coimbatore'),
+    -> ('Harish K', 29, '9111223344', 'Salem'),
+    -> ('Nisha Arora', 26, '9122334455', 'Chandigarh'),
+    -> ('Gopal Krishna', 37, '9133445566', 'Vijayawada'),
+    -> ('Anand P', 28, '9144556677', 'Tirupati'),
+    -> ('Shreya Bose', 25, '9155667788', 'Kolkata'),
+    -> ('Ramesh Babu', 40, '9166778899', 'Hyderabad'),
+    -> ('Lakshmi Devi', 38, '9177889900', 'Madurai'),
+    -> ('Sanjay Gupta', 35, '9188990011', 'Delhi'),
+    -> ('Tejaswini M', 22, '9199001122', 'Bangalore'),
+    -> ('Varun Khanna', 31, '9200112233', 'Noida'),
+    -> ('Pavan Kumar', 27, '9211223344', 'Warangal'),
+    -> ('Aishwarya Rai', 29, '9222334455', 'Mumbai'),
+    -> ('Siddharth Jain', 33, '9233445566', 'Jaipur'),
+    -> ('Keerthi R', 24, '9244556677', 'Hyderabad'),
+    -> ('Bhavesh Shah', 36, '9255667788', 'Ahmedabad'),
+    -> ('Anusha K', 23, '9266778899', 'Vizag'),
+    -> ('Ravi Teja', 28, '9277889900', 'Vijayawada'),
+    -> ('Pallavi N', 26, '9288990011', 'Chennai'),
+    -> ('Sunil Dutt', 39, '9299001122', 'Mumbai'),
+    -> ('Geeta Kapoor', 34, '9300112233', 'Delhi'),
+    -> ('Nitin Agarwal', 32, '9311223344', 'Kanpur'),
+    -> ('Harika P', 21, '9322334455', 'Guntur'),
+    -> ('Prakash R', 37, '9333445566', 'Coimbatore'),
+    -> ('Soumya S', 25, '9344556677', 'Kochi'),
+    -> ('Raghavendra', 41, '9355667788', 'Bangalore'),
+    -> ('Padmaja', 36, '9366778899', 'Hyderabad'),
+    -> ('Yogesh Patil', 30, '9377889900', 'Pune'),
+    -> ('Chitra V', 28, '9388990011', 'Trivandrum');
+Query OK, 50 rows affected (0.04 sec)
+Records: 50  Duplicates: 0  Warnings: 0
+
+mysql> select * from customers;
++------------+----------------+------+------------+------------+
+| CustomerID | Name           | Age  | Phone      | Address    |
++------------+----------------+------+------------+------------+
+|          1 | Neha Priya     |   21 | 9876543210 | Hyderabad  |
+|          2 | Rahul Sharma   |   25 | 9123456780 | Delhi      |
+|          3 | Amit Kumar     |   30 | 9012345678 | Mumbai     |
+|          4 | Sneha Reddy    |   22 | 9988776655 | Chennai    |
+|          5 | Vikram Singh   |   28 | 9090909090 | Bangalore  |
+|          6 | Pooja Mehta    |   24 | 9876501234 | Kolkata    |
+|          7 | Arjun Verma    |   27 | 9123409876 | Pune       |
+|          8 | Kiran Rao      |   29 | 9345678901 | Hyderabad  |
+|          9 | Anjali Gupta   |   23 | 9988123456 | Jaipur     |
+|         10 | Rohit Das      |   26 | 9765432109 | Ahmedabad  |
+|         11 | Suresh Patel   |   35 | 9876123450 | Surat      |
+|         12 | Meena Iyer     |   31 | 9001122334 | Chennai    |
+|         13 | Naveen Kumar   |   33 | 9011223344 | Bangalore  |
+|         14 | Divya Sharma   |   22 | 9022334455 | Delhi      |
+|         15 | Karthik R      |   28 | 9033445566 | Hyderabad  |
+|         16 | Priya Singh    |   24 | 9044556677 | Lucknow    |
+|         17 | Manoj Tiwari   |   36 | 9055667788 | Varanasi   |
+|         18 | Ritika Jain    |   27 | 9066778899 | Indore     |
+|         19 | Ajay Yadav     |   32 | 9077889900 | Patna      |
+|         20 | Swathi N       |   23 | 9088990011 | Mysore     |
+|         21 | Deepak Mishra  |   34 | 9099001122 | Bhopal     |
+|         22 | Kavya S        |   21 | 9100112233 | Coimbatore |
+|         23 | Harish K       |   29 | 9111223344 | Salem      |
+|         24 | Nisha Arora    |   26 | 9122334455 | Chandigarh |
+|         25 | Gopal Krishna  |   37 | 9133445566 | Vijayawada |
+|         26 | Anand P        |   28 | 9144556677 | Tirupati   |
+|         27 | Shreya Bose    |   25 | 9155667788 | Kolkata    |
+|         28 | Ramesh Babu    |   40 | 9166778899 | Hyderabad  |
+|         29 | Lakshmi Devi   |   38 | 9177889900 | Madurai    |
+|         30 | Sanjay Gupta   |   35 | 9188990011 | Delhi      |
+|         31 | Tejaswini M    |   22 | 9199001122 | Bangalore  |
+|         32 | Varun Khanna   |   31 | 9200112233 | Noida      |
+|         33 | Pavan Kumar    |   27 | 9211223344 | Warangal   |
+|         34 | Aishwarya Rai  |   29 | 9222334455 | Mumbai     |
+|         35 | Siddharth Jain |   33 | 9233445566 | Jaipur     |
+|         36 | Keerthi R      |   24 | 9244556677 | Hyderabad  |
+|         37 | Bhavesh Shah   |   36 | 9255667788 | Ahmedabad  |
+|         38 | Anusha K       |   23 | 9266778899 | Vizag      |
+|         39 | Ravi Teja      |   28 | 9277889900 | Vijayawada |
+|         40 | Pallavi N      |   26 | 9288990011 | Chennai    |
+|         41 | Sunil Dutt     |   39 | 9299001122 | Mumbai     |
+|         42 | Geeta Kapoor   |   34 | 9300112233 | Delhi      |
+|         43 | Nitin Agarwal  |   32 | 9311223344 | Kanpur     |
+|         44 | Harika P       |   21 | 9322334455 | Guntur     |
+|         45 | Prakash R      |   37 | 9333445566 | Coimbatore |
+|         46 | Soumya S       |   25 | 9344556677 | Kochi      |
+|         47 | Raghavendra    |   41 | 9355667788 | Bangalore  |
+|         48 | Padmaja        |   36 | 9366778899 | Hyderabad  |
+|         49 | Yogesh Patil   |   30 | 9377889900 | Pune       |
+|         50 | Chitra V       |   28 | 9388990011 | Trivandrum |
++------------+----------------+------+------------+------------+
+50 rows in set (0.00 sec)
+
+mysql> INSERT INTO Employees (Name, Position, Salary, BranchID) VALUES
+    -> ('Amit Kumar', 'Manager', 60000, 1),
+    -> ('Sneha Reddy', 'Clerk', 30000, 1),
+    -> ('Rahul Sharma', 'Cashier', 28000, 1),
+    -> ('Pooja Mehta', 'Manager', 62000, 2),
+    -> ('Vikram Singh', 'Clerk', 32000, 2),
+    -> ('Anjali Gupta', 'Cashier', 29000, 2),
+    -> ('Kiran Rao', 'Manager', 65000, 3),
+    -> ('Rohit Das', 'Clerk', 31000, 3),
+    -> ('Suresh Patel', 'Cashier', 27000, 3),
+    -> ('Meena Iyer', 'Manager', 63000, 4),
+    -> ('Naveen Kumar', 'Clerk', 30000, 4),
+    -> ('Divya Sharma', 'Cashier', 26000, 4),
+    -> ('Karthik R', 'Manager', 67000, 5),
+    -> ('Priya Singh', 'Clerk', 32000, 5),
+    -> ('Manoj Tiwari', 'Cashier', 28000, 5),
+    -> ('Ritika Jain', 'Manager', 64000, 6),
+    -> ('Ajay Yadav', 'Clerk', 31000, 6),
+    -> ('Swathi N', 'Cashier', 27000, 6),
+    -> ('Deepak Mishra', 'Manager', 66000, 7),
+    -> ('Kavya S', 'Clerk', 30000, 7),
+    -> ('Harish K', 'Cashier', 29000, 7),
+    -> ('Nisha Arora', 'Manager', 68000, 8),
+    -> ('Gopal Krishna', 'Clerk', 33000, 8),
+    -> ('Anand P', 'Cashier', 27500, 8),
+    -> ('Shreya Bose', 'Manager', 70000, 9),
+    -> ('Ramesh Babu', 'Clerk', 34000, 9),
+    -> ('Lakshmi Devi', 'Cashier', 28500, 9),
+    -> ('Sanjay Gupta', 'Manager', 72000, 10),
+    -> ('Tejaswini M', 'Clerk', 31000, 10),
+    -> ('Varun Khanna', 'Cashier', 29500, 10),
+    -> ('Pavan Kumar', 'Manager', 69000, 1),
+    -> ('Aishwarya Rai', 'Clerk', 32000, 1),
+    -> ('Siddharth Jain', 'Cashier', 28000, 2),
+    -> ('Keerthi R', 'Manager', 71000, 2),
+    -> ('Bhavesh Shah', 'Clerk', 33000, 3),
+    -> ('Anusha K', 'Cashier', 27000, 3),
+    -> ('Ravi Teja', 'Manager', 73000, 4),
+    -> ('Pallavi N', 'Clerk', 30000, 4),
+    -> ('Sunil Dutt', 'Cashier', 26000, 5),
+    -> ('Geeta Kapoor', 'Manager', 75000, 5),
+    -> ('Nitin Agarwal', 'Clerk', 34000, 6),
+    -> ('Harika P', 'Cashier', 27500, 6),
+    -> ('Prakash R', 'Manager', 76000, 7),
+    -> ('Soumya S', 'Clerk', 31000, 7),
+    -> ('Raghavendra', 'Cashier', 29000, 8),
+    -> ('Padmaja', 'Manager', 78000, 8),
+    -> ('Yogesh Patil', 'Clerk', 32000, 9),
+    -> ('Chitra V', 'Cashier', 28000, 9),
+    -> ('Arjun Verma', 'Manager', 80000, 10),
+    -> ('Neha Priya', 'Clerk', 35000, 10);
+Query OK, 50 rows affected (0.01 sec)
+Records: 50  Duplicates: 0  Warnings: 0
+
+mysql> select * from employees;
++------------+----------------+----------+----------+----------+
+| EmployeeID | Name           | Position | Salary   | BranchID |
++------------+----------------+----------+----------+----------+
+|         51 | Amit Kumar     | Manager  | 60000.00 |        1 |
+|         52 | Sneha Reddy    | Clerk    | 30000.00 |        1 |
+|         53 | Rahul Sharma   | Cashier  | 28000.00 |        1 |
+|         54 | Pooja Mehta    | Manager  | 62000.00 |        2 |
+|         55 | Vikram Singh   | Clerk    | 32000.00 |        2 |
+|         56 | Anjali Gupta   | Cashier  | 29000.00 |        2 |
+|         57 | Kiran Rao      | Manager  | 65000.00 |        3 |
+|         58 | Rohit Das      | Clerk    | 31000.00 |        3 |
+|         59 | Suresh Patel   | Cashier  | 27000.00 |        3 |
+|         60 | Meena Iyer     | Manager  | 63000.00 |        4 |
+|         61 | Naveen Kumar   | Clerk    | 30000.00 |        4 |
+|         62 | Divya Sharma   | Cashier  | 26000.00 |        4 |
+|         63 | Karthik R      | Manager  | 67000.00 |        5 |
+|         64 | Priya Singh    | Clerk    | 32000.00 |        5 |
+|         65 | Manoj Tiwari   | Cashier  | 28000.00 |        5 |
+|         66 | Ritika Jain    | Manager  | 64000.00 |        6 |
+|         67 | Ajay Yadav     | Clerk    | 31000.00 |        6 |
+|         68 | Swathi N       | Cashier  | 27000.00 |        6 |
+|         69 | Deepak Mishra  | Manager  | 66000.00 |        7 |
+|         70 | Kavya S        | Clerk    | 30000.00 |        7 |
+|         71 | Harish K       | Cashier  | 29000.00 |        7 |
+|         72 | Nisha Arora    | Manager  | 68000.00 |        8 |
+|         73 | Gopal Krishna  | Clerk    | 33000.00 |        8 |
+|         74 | Anand P        | Cashier  | 27500.00 |        8 |
+|         75 | Shreya Bose    | Manager  | 70000.00 |        9 |
+|         76 | Ramesh Babu    | Clerk    | 34000.00 |        9 |
+|         77 | Lakshmi Devi   | Cashier  | 28500.00 |        9 |
+|         78 | Sanjay Gupta   | Manager  | 72000.00 |       10 |
+|         79 | Tejaswini M    | Clerk    | 31000.00 |       10 |
+|         80 | Varun Khanna   | Cashier  | 29500.00 |       10 |
+|         81 | Pavan Kumar    | Manager  | 69000.00 |        1 |
+|         82 | Aishwarya Rai  | Clerk    | 32000.00 |        1 |
+|         83 | Siddharth Jain | Cashier  | 28000.00 |        2 |
+|         84 | Keerthi R      | Manager  | 71000.00 |        2 |
+|         85 | Bhavesh Shah   | Clerk    | 33000.00 |        3 |
+|         86 | Anusha K       | Cashier  | 27000.00 |        3 |
+|         87 | Ravi Teja      | Manager  | 73000.00 |        4 |
+|         88 | Pallavi N      | Clerk    | 30000.00 |        4 |
+|         89 | Sunil Dutt     | Cashier  | 26000.00 |        5 |
+|         90 | Geeta Kapoor   | Manager  | 75000.00 |        5 |
+|         91 | Nitin Agarwal  | Clerk    | 34000.00 |        6 |
+|         92 | Harika P       | Cashier  | 27500.00 |        6 |
+|         93 | Prakash R      | Manager  | 76000.00 |        7 |
+|         94 | Soumya S       | Clerk    | 31000.00 |        7 |
+|         95 | Raghavendra    | Cashier  | 29000.00 |        8 |
+|         96 | Padmaja        | Manager  | 78000.00 |        8 |
+|         97 | Yogesh Patil   | Clerk    | 32000.00 |        9 |
+|         98 | Chitra V       | Cashier  | 28000.00 |        9 |
+|         99 | Arjun Verma    | Manager  | 80000.00 |       10 |
+|        100 | Neha Priya     | Clerk    | 35000.00 |       10 |
++------------+----------------+----------+----------+----------+
+50 rows in set (0.00 sec)
+
+mysql> INSERT INTO Accounts (CustomerID, BranchID, AccountType, Balance) VALUES
+    -> (1, 1, 'Savings', 5000),
+    -> (2, 1, 'Current', 12000),
+    -> (3, 1, 'Savings', 8000),
+    -> (4, 2, 'Current', 15000),
+    -> (5, 2, 'Savings', 6000),
+    -> (6, 2, 'Current', 20000),
+    -> (7, 3, 'Savings', 7500),
+    -> (8, 3, 'Current', 18000),
+    -> (9, 3, 'Savings', 9000),
+    -> (10, 4, 'Current', 22000),
+    -> (11, 4, 'Savings', 4000),
+    -> (12, 4, 'Current', 17000),
+    -> (13, 5, 'Savings', 6500),
+    -> (14, 5, 'Current', 21000),
+    -> (15, 5, 'Savings', 7200),
+    -> (16, 6, 'Current', 25000),
+    -> (17, 6, 'Savings', 5300),
+    -> (18, 6, 'Current', 19000),
+    -> (19, 7, 'Savings', 8700),
+    -> (20, 7, 'Current', 23000),
+    -> (21, 7, 'Savings', 6100),
+    -> (22, 8, 'Current', 24000),
+    -> (23, 8, 'Savings', 7800),
+    -> (24, 8, 'Current', 26000),
+    -> (25, 9, 'Savings', 8200),
+    -> (26, 9, 'Current', 27000),
+    -> (27, 9, 'Savings', 9100),
+    -> (28, 10, 'Current', 30000),
+    -> (29, 10, 'Savings', 4700),
+    -> (30, 10, 'Current', 28000),
+    -> (31, 1, 'Savings', 5500),
+    -> (32, 1, 'Current', 32000),
+    -> (33, 2, 'Savings', 6800),
+    -> (34, 2, 'Current', 35000),
+    -> (35, 3, 'Savings', 7200),
+    -> (36, 3, 'Current', 33000),
+    -> (37, 4, 'Savings', 8800),
+    -> (38, 4, 'Current', 36000),
+    -> (39, 5, 'Savings', 9300),
+    -> (40, 5, 'Current', 40000),
+    -> (41, 6, 'Savings', 5100),
+    -> (42, 6, 'Current', 37000),
+    -> (43, 7, 'Savings', 7600),
+    -> (44, 7, 'Current', 39000),
+    -> (45, 8, 'Savings', 8400),
+    -> (46, 8, 'Current', 42000),
+    -> (47, 9, 'Savings', 6600),
+    -> (48, 9, 'Current', 38000),
+    -> (49, 10, 'Savings', 9700),
+    -> (50, 10, 'Current', 45000);
+Query OK, 50 rows affected (0.01 sec)
+Records: 50  Duplicates: 0  Warnings: 0
+
+mysql> select * from accounts;
++-----------+------------+----------+-------------+----------+
+| AccountID | CustomerID | BranchID | AccountType | Balance  |
++-----------+------------+----------+-------------+----------+
+|         1 |          1 |        1 | Savings     |  5000.00 |
+|         2 |          2 |        1 | Current     | 12000.00 |
+|         3 |          3 |        1 | Savings     |  8000.00 |
+|         4 |          4 |        2 | Current     | 15000.00 |
+|         5 |          5 |        2 | Savings     |  6000.00 |
+|         6 |          6 |        2 | Current     | 20000.00 |
+|         7 |          7 |        3 | Savings     |  7500.00 |
+|         8 |          8 |        3 | Current     | 18000.00 |
+|         9 |          9 |        3 | Savings     |  9000.00 |
+|        10 |         10 |        4 | Current     | 22000.00 |
+|        11 |         11 |        4 | Savings     |  4000.00 |
+|        12 |         12 |        4 | Current     | 17000.00 |
+|        13 |         13 |        5 | Savings     |  6500.00 |
+|        14 |         14 |        5 | Current     | 21000.00 |
+|        15 |         15 |        5 | Savings     |  7200.00 |
+|        16 |         16 |        6 | Current     | 25000.00 |
+|        17 |         17 |        6 | Savings     |  5300.00 |
+|        18 |         18 |        6 | Current     | 19000.00 |
+|        19 |         19 |        7 | Savings     |  8700.00 |
+|        20 |         20 |        7 | Current     | 23000.00 |
+|        21 |         21 |        7 | Savings     |  6100.00 |
+|        22 |         22 |        8 | Current     | 24000.00 |
+|        23 |         23 |        8 | Savings     |  7800.00 |
+|        24 |         24 |        8 | Current     | 26000.00 |
+|        25 |         25 |        9 | Savings     |  8200.00 |
+|        26 |         26 |        9 | Current     | 27000.00 |
+|        27 |         27 |        9 | Savings     |  9100.00 |
+|        28 |         28 |       10 | Current     | 30000.00 |
+|        29 |         29 |       10 | Savings     |  4700.00 |
+|        30 |         30 |       10 | Current     | 28000.00 |
+|        31 |         31 |        1 | Savings     |  5500.00 |
+|        32 |         32 |        1 | Current     | 32000.00 |
+|        33 |         33 |        2 | Savings     |  6800.00 |
+|        34 |         34 |        2 | Current     | 35000.00 |
+|        35 |         35 |        3 | Savings     |  7200.00 |
+|        36 |         36 |        3 | Current     | 33000.00 |
+|        37 |         37 |        4 | Savings     |  8800.00 |
+|        38 |         38 |        4 | Current     | 36000.00 |
+|        39 |         39 |        5 | Savings     |  9300.00 |
+|        40 |         40 |        5 | Current     | 40000.00 |
+|        41 |         41 |        6 | Savings     |  5100.00 |
+|        42 |         42 |        6 | Current     | 37000.00 |
+|        43 |         43 |        7 | Savings     |  7600.00 |
+|        44 |         44 |        7 | Current     | 39000.00 |
+|        45 |         45 |        8 | Savings     |  8400.00 |
+|        46 |         46 |        8 | Current     | 42000.00 |
+|        47 |         47 |        9 | Savings     |  6600.00 |
+|        48 |         48 |        9 | Current     | 38000.00 |
+|        49 |         49 |       10 | Savings     |  9700.00 |
+|        50 |         50 |       10 | Current     | 45000.00 |
++-----------+------------+----------+-------------+----------+
+50 rows in set (0.00 sec)
+
+
+mysql> CREATE TABLE Transactions (
+    ->     TransactionID INT PRIMARY KEY AUTO_INCREMENT,
+    ->     AccountID INT,
+    ->     TransactionType VARCHAR(20),
+    ->     Amount DECIMAL(10,2),
+    ->     TransactionDate DATETIME,
+    ->     FOREIGN KEY (AccountID) REFERENCES Accounts(AccountID)
+    -> );
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> INSERT INTO Transactions (AccountID, TransactionType, Amount, TransactionDate) VALUES
+    -> (1, 'Deposit', 2000, '2024-01-01 09:15:00'),
+    -> (2, 'Withdraw', 1500, '2024-01-03 11:30:00'),
+    -> (3, 'Deposit', 3000, '2024-01-05 14:20:00'),
+    -> (4, 'Transfer', 2500, '2024-01-07 16:45:00'),
+    -> (5, 'Deposit', 1800, '2024-01-10 10:10:00'),
+    -> (6, 'Withdraw', 2200, '2024-01-12 13:25:00'),
+    -> (7, 'Deposit', 2700, '2024-01-15 15:40:00'),
+    -> (8, 'Transfer', 3500, '2024-01-18 17:55:00'),
+    -> (9, 'Withdraw', 1200, '2024-01-20 08:35:00'),
+    -> (10, 'Deposit', 4000, '2024-01-22 12:10:00'),
+    -> 
+    -> (11, 'Withdraw', 1000, '2024-02-01 09:20:00'),
+    -> (12, 'Deposit', 2800, '2024-02-03 11:45:00'),
+    -> (13, 'Transfer', 3100, '2024-02-05 14:10:00'),
+    -> (14, 'Deposit', 2600, '2024-02-08 16:25:00'),
+    -> (15, 'Withdraw', 1700, '2024-02-10 10:30:00'),
+    -> (16, 'Deposit', 5000, '2024-02-12 13:50:00'),
+    -> (17, 'Transfer', 2000, '2024-02-15 15:15:00'),
+    -> (18, 'Withdraw', 2100, '2024-02-18 17:35:00'),
+    -> (19, 'Deposit', 3300, '2024-02-20 08:55:00'),
+    -> (20, 'Transfer', 2900, '2024-02-22 12:40:00'),
+    -> 
+    -> (21, 'Deposit', 1500, '2024-03-01 09:05:00'),
+    -> (22, 'Withdraw', 3400, '2024-03-03 11:25:00'),
+    -> (23, 'Deposit', 3700, '2024-03-05 14:45:00'),
+    -> (24, 'Transfer', 4200, '2024-03-08 16:20:00'),
+    -> (25, 'Withdraw', 1900, '2024-03-10 10:50:00'),
+    -> (26, 'Deposit', 4500, '2024-03-12 13:15:00'),
+    -> (27, 'Transfer', 3800, '2024-03-15 15:30:00'),
+    -> (28, 'Deposit', 5200, '2024-03-18 17:45:00'),
+    -> (29, 'Withdraw', 1600, '2024-03-20 08:20:00'),
+    -> (30, 'Deposit', 4100, '2024-03-22 12:00:00'),
+    -> 
+    -> (31, 'Transfer', 2300, '2024-04-01 09:35:00'),
+    -> (32, 'Deposit', 6000, '2024-04-03 11:10:00'),
+    -> (33, 'Withdraw', 2400, '2024-04-05 14:25:00'),
+    -> (34, 'Transfer', 4700, '2024-04-08 16:40:00'),
+    -> (35, 'Deposit', 2800, '2024-04-10 10:15:00'),
+    -> (36, 'Deposit', 3900, '2024-04-12 13:30:00'),
+    -> (37, 'Withdraw', 2600, '2024-04-15 15:45:00'),
+    -> (38, 'Transfer', 5100, '2024-04-18 17:50:00'),
+    -> (39, 'Deposit', 4300, '2024-04-20 08:10:00'),
+    -> (40, 'Withdraw', 3000, '2024-04-22 12:25:00'),
+    -> 
+    -> (41, 'Deposit', 2200, '2024-05-01 09:40:00'),
+    -> (42, 'Transfer', 4800, '2024-05-03 11:55:00'),
+    -> (43, 'Deposit', 3600, '2024-05-05 14:05:00'),
+    -> (44, 'Withdraw', 2700, '2024-05-08 16:15:00'),
+    -> (45, 'Transfer', 3400, '2024-05-10 10:35:00'),
+    -> (46, 'Deposit', 5500, '2024-05-12 13:45:00'),
+    -> (47, 'Withdraw', 2000, '2024-05-15 15:55:00'),
+    -> (48, 'Transfer', 4600, '2024-05-18 17:20:00'),
+    -> (49, 'Deposit', 4900, '2024-05-20 08:45:00'),
+    -> (50, 'Withdraw', 3100, '2024-05-22 12:35:00');
+Query OK, 50 rows affected (0.04 sec)
+Records: 50  Duplicates: 0  Warnings: 0
+
+mysql> select * from transactions;
++---------------+-----------+-----------------+---------+---------------------+
+| TransactionID | AccountID | TransactionType | Amount  | TransactionDate     |
++---------------+-----------+-----------------+---------+---------------------+
+|             1 |         1 | Deposit         | 2000.00 | 2024-01-01 09:15:00 |
+|             2 |         2 | Withdraw        | 1500.00 | 2024-01-03 11:30:00 |
+|             3 |         3 | Deposit         | 3000.00 | 2024-01-05 14:20:00 |
+|             4 |         4 | Transfer        | 2500.00 | 2024-01-07 16:45:00 |
+|             5 |         5 | Deposit         | 1800.00 | 2024-01-10 10:10:00 |
+|             6 |         6 | Withdraw        | 2200.00 | 2024-01-12 13:25:00 |
+|             7 |         7 | Deposit         | 2700.00 | 2024-01-15 15:40:00 |
+|             8 |         8 | Transfer        | 3500.00 | 2024-01-18 17:55:00 |
+|             9 |         9 | Withdraw        | 1200.00 | 2024-01-20 08:35:00 |
+|            10 |        10 | Deposit         | 4000.00 | 2024-01-22 12:10:00 |
+|            11 |        11 | Withdraw        | 1000.00 | 2024-02-01 09:20:00 |
+|            12 |        12 | Deposit         | 2800.00 | 2024-02-03 11:45:00 |
+|            13 |        13 | Transfer        | 3100.00 | 2024-02-05 14:10:00 |
+|            14 |        14 | Deposit         | 2600.00 | 2024-02-08 16:25:00 |
+|            15 |        15 | Withdraw        | 1700.00 | 2024-02-10 10:30:00 |
+|            16 |        16 | Deposit         | 5000.00 | 2024-02-12 13:50:00 |
+|            17 |        17 | Transfer        | 2000.00 | 2024-02-15 15:15:00 |
+|            18 |        18 | Withdraw        | 2100.00 | 2024-02-18 17:35:00 |
+|            19 |        19 | Deposit         | 3300.00 | 2024-02-20 08:55:00 |
+|            20 |        20 | Transfer        | 2900.00 | 2024-02-22 12:40:00 |
+|            21 |        21 | Deposit         | 1500.00 | 2024-03-01 09:05:00 |
+|            22 |        22 | Withdraw        | 3400.00 | 2024-03-03 11:25:00 |
+|            23 |        23 | Deposit         | 3700.00 | 2024-03-05 14:45:00 |
+|            24 |        24 | Transfer        | 4200.00 | 2024-03-08 16:20:00 |
+|            25 |        25 | Withdraw        | 1900.00 | 2024-03-10 10:50:00 |
+|            26 |        26 | Deposit         | 4500.00 | 2024-03-12 13:15:00 |
+|            27 |        27 | Transfer        | 3800.00 | 2024-03-15 15:30:00 |
+|            28 |        28 | Deposit         | 5200.00 | 2024-03-18 17:45:00 |
+|            29 |        29 | Withdraw        | 1600.00 | 2024-03-20 08:20:00 |
+|            30 |        30 | Deposit         | 4100.00 | 2024-03-22 12:00:00 |
+|            31 |        31 | Transfer        | 2300.00 | 2024-04-01 09:35:00 |
+|            32 |        32 | Deposit         | 6000.00 | 2024-04-03 11:10:00 |
+|            33 |        33 | Withdraw        | 2400.00 | 2024-04-05 14:25:00 |
+|            34 |        34 | Transfer        | 4700.00 | 2024-04-08 16:40:00 |
+|            35 |        35 | Deposit         | 2800.00 | 2024-04-10 10:15:00 |
+|            36 |        36 | Deposit         | 3900.00 | 2024-04-12 13:30:00 |
+|            37 |        37 | Withdraw        | 2600.00 | 2024-04-15 15:45:00 |
+|            38 |        38 | Transfer        | 5100.00 | 2024-04-18 17:50:00 |
+|            39 |        39 | Deposit         | 4300.00 | 2024-04-20 08:10:00 |
+|            40 |        40 | Withdraw        | 3000.00 | 2024-04-22 12:25:00 |
+|            41 |        41 | Deposit         | 2200.00 | 2024-05-01 09:40:00 |
+|            42 |        42 | Transfer        | 4800.00 | 2024-05-03 11:55:00 |
+|            43 |        43 | Deposit         | 3600.00 | 2024-05-05 14:05:00 |
+|            44 |        44 | Withdraw        | 2700.00 | 2024-05-08 16:15:00 |
+|            45 |        45 | Transfer        | 3400.00 | 2024-05-10 10:35:00 |
+|            46 |        46 | Deposit         | 5500.00 | 2024-05-12 13:45:00 |
+|            47 |        47 | Withdraw        | 2000.00 | 2024-05-15 15:55:00 |
+|            48 |        48 | Transfer        | 4600.00 | 2024-05-18 17:20:00 |
+|            49 |        49 | Deposit         | 4900.00 | 2024-05-20 08:45:00 |
+|            50 |        50 | Withdraw        | 3100.00 | 2024-05-22 12:35:00 |
++---------------+-----------+-----------------+---------+---------------------+
+50 rows in set (0.00 sec)
+
+mysql> INSERT INTO Loans (CustomerID, BranchID, LoanAmount, InterestRate, LoanStatus) VALUES
+    -> (1, 3, 50000, 7.5, 'Approved'),
+    -> (2, 5, 120000, 8.2, 'Pending'),
+    -> (3, 2, 75000, 7.8, 'Rejected'),
+    -> (4, 1, 200000, 9.0, 'Approved'),
+    -> (5, 4, 150000, 8.5, 'Pending'),
+    -> (6, 6, 300000, 9.2, 'Approved'),
+    -> (7, 3, 45000, 7.0, 'Rejected'),
+    -> (8, 2, 98000, 8.1, 'Approved'),
+    -> (9, 5, 67000, 7.9, 'Pending'),
+    -> (10, 1, 250000, 9.5, 'Approved'),
+    -> 
+    -> (11, 4, 110000, 8.3, 'Rejected'),
+    -> (12, 6, 90000, 7.7, 'Approved'),
+    -> (13, 3, 135000, 8.6, 'Pending'),
+    -> (14, 2, 40000, 7.2, 'Approved'),
+    -> (15, 5, 220000, 9.1, 'Rejected'),
+    -> (16, 1, 175000, 8.8, 'Approved'),
+    -> (17, 4, 60000, 7.4, 'Pending'),
+    -> (18, 6, 310000, 9.3, 'Approved'),
+    -> (19, 3, 47000, 7.1, 'Rejected'),
+    -> (20, 2, 82000, 8.0, 'Approved'),
+    -> 
+    -> (21, 5, 99000, 8.2, 'Pending'),
+    -> (22, 1, 260000, 9.4, 'Approved'),
+    -> (23, 4, 145000, 8.5, 'Rejected'),
+    -> (24, 6, 70000, 7.6, 'Approved'),
+    -> (25, 3, 180000, 8.9, 'Pending'),
+    -> (26, 2, 55000, 7.3, 'Approved'),
+    -> (27, 5, 210000, 9.0, 'Rejected'),
+    -> (28, 1, 160000, 8.7, 'Approved'),
+    -> (29, 4, 68000, 7.5, 'Pending'),
+    -> (30, 6, 305000, 9.2, 'Approved'),
+    -> 
+    -> (31, 3, 49000, 7.2, 'Rejected'),
+    -> (32, 2, 88000, 8.1, 'Approved'),
+    -> (33, 5, 102000, 8.3, 'Pending'),
+    -> (34, 1, 275000, 9.6, 'Approved'),
+    -> (35, 4, 155000, 8.6, 'Rejected'),
+    -> (36, 6, 72000, 7.7, 'Approved'),
+    -> (37, 3, 185000, 8.9, 'Pending'),
+    -> (38, 2, 58000, 7.4, 'Approved'),
+    -> (39, 5, 215000, 9.1, 'Rejected'),
+    -> (40, 1, 165000, 8.8, 'Approved'),
+    -> 
+    -> (41, 4, 69000, 7.6, 'Pending'),
+    -> (42, 6, 315000, 9.3, 'Approved'),
+    -> (43, 3, 51000, 7.3, 'Rejected'),
+    -> (44, 2, 91000, 8.2, 'Approved'),
+    -> (45, 5, 105000, 8.4, 'Pending'),
+    -> (46, 1, 280000, 9.7, 'Approved'),
+    -> (47, 4, 158000, 8.7, 'Rejected'),
+    -> (48, 6, 74000, 7.8, 'Approved'),
+    -> (49, 3, 190000, 9.0, 'Pending'),
+    -> (50, 2, 60000, 7.5, 'Approved');
+Query OK, 50 rows affected (0.01 sec)
+Records: 50  Duplicates: 0  Warnings: 0
+
+mysql> select * from loans;
++--------+------------+----------+------------+--------------+------------+
+| LoanID | CustomerID | BranchID | LoanAmount | InterestRate | LoanStatus |
++--------+------------+----------+------------+--------------+------------+
+|      1 |          1 |        3 |   50000.00 |         7.50 | Approved   |
+|      2 |          2 |        5 |  120000.00 |         8.20 | Pending    |
+|      3 |          3 |        2 |   75000.00 |         7.80 | Rejected   |
+|      4 |          4 |        1 |  200000.00 |         9.00 | Approved   |
+|      5 |          5 |        4 |  150000.00 |         8.50 | Pending    |
+|      6 |          6 |        6 |  300000.00 |         9.20 | Approved   |
+|      7 |          7 |        3 |   45000.00 |         7.00 | Rejected   |
+|      8 |          8 |        2 |   98000.00 |         8.10 | Approved   |
+|      9 |          9 |        5 |   67000.00 |         7.90 | Pending    |
+|     10 |         10 |        1 |  250000.00 |         9.50 | Approved   |
+|     11 |         11 |        4 |  110000.00 |         8.30 | Rejected   |
+|     12 |         12 |        6 |   90000.00 |         7.70 | Approved   |
+|     13 |         13 |        3 |  135000.00 |         8.60 | Pending    |
+|     14 |         14 |        2 |   40000.00 |         7.20 | Approved   |
+|     15 |         15 |        5 |  220000.00 |         9.10 | Rejected   |
+|     16 |         16 |        1 |  175000.00 |         8.80 | Approved   |
+|     17 |         17 |        4 |   60000.00 |         7.40 | Pending    |
+|     18 |         18 |        6 |  310000.00 |         9.30 | Approved   |
+|     19 |         19 |        3 |   47000.00 |         7.10 | Rejected   |
+|     20 |         20 |        2 |   82000.00 |         8.00 | Approved   |
+|     21 |         21 |        5 |   99000.00 |         8.20 | Pending    |
+|     22 |         22 |        1 |  260000.00 |         9.40 | Approved   |
+|     23 |         23 |        4 |  145000.00 |         8.50 | Rejected   |
+|     24 |         24 |        6 |   70000.00 |         7.60 | Approved   |
+|     25 |         25 |        3 |  180000.00 |         8.90 | Pending    |
+|     26 |         26 |        2 |   55000.00 |         7.30 | Approved   |
+|     27 |         27 |        5 |  210000.00 |         9.00 | Rejected   |
+|     28 |         28 |        1 |  160000.00 |         8.70 | Approved   |
+|     29 |         29 |        4 |   68000.00 |         7.50 | Pending    |
+|     30 |         30 |        6 |  305000.00 |         9.20 | Approved   |
+|     31 |         31 |        3 |   49000.00 |         7.20 | Rejected   |
+|     32 |         32 |        2 |   88000.00 |         8.10 | Approved   |
+|     33 |         33 |        5 |  102000.00 |         8.30 | Pending    |
+|     34 |         34 |        1 |  275000.00 |         9.60 | Approved   |
+|     35 |         35 |        4 |  155000.00 |         8.60 | Rejected   |
+|     36 |         36 |        6 |   72000.00 |         7.70 | Approved   |
+|     37 |         37 |        3 |  185000.00 |         8.90 | Pending    |
+|     38 |         38 |        2 |   58000.00 |         7.40 | Approved   |
+|     39 |         39 |        5 |  215000.00 |         9.10 | Rejected   |
+|     40 |         40 |        1 |  165000.00 |         8.80 | Approved   |
+|     41 |         41 |        4 |   69000.00 |         7.60 | Pending    |
+|     42 |         42 |        6 |  315000.00 |         9.30 | Approved   |
+|     43 |         43 |        3 |   51000.00 |         7.30 | Rejected   |
+|     44 |         44 |        2 |   91000.00 |         8.20 | Approved   |
+|     45 |         45 |        5 |  105000.00 |         8.40 | Pending    |
+|     46 |         46 |        1 |  280000.00 |         9.70 | Approved   |
+|     47 |         47 |        4 |  158000.00 |         8.70 | Rejected   |
+|     48 |         48 |        6 |   74000.00 |         7.80 | Approved   |
+|     49 |         49 |        3 |  190000.00 |         9.00 | Pending    |
+|     50 |         50 |        2 |   60000.00 |         7.50 | Approved   |
++--------+------------+----------+------------+--------------+------------+
+50 rows in set (0.00 sec)
+
+mysql> -- performing easy queries.
+mysql> -- 1. show customers from a specific city hyderabad
+mysql> select * from customers 
+    -> where city='hyderabad';
+ERROR 1054 (42S22): Unknown column 'city' in 'where clause'
+mysql> select * from customers;
++------------+----------------+------+------------+------------+
+| CustomerID | Name           | Age  | Phone      | Address    |
++------------+----------------+------+------------+------------+
+|          1 | Neha Priya     |   21 | 9876543210 | Hyderabad  |
+|          2 | Rahul Sharma   |   25 | 9123456780 | Delhi      |
+|          3 | Amit Kumar     |   30 | 9012345678 | Mumbai     |
+|          4 | Sneha Reddy    |   22 | 9988776655 | Chennai    |
+|          5 | Vikram Singh   |   28 | 9090909090 | Bangalore  |
+|          6 | Pooja Mehta    |   24 | 9876501234 | Kolkata    |
+|          7 | Arjun Verma    |   27 | 9123409876 | Pune       |
+|          8 | Kiran Rao      |   29 | 9345678901 | Hyderabad  |
+|          9 | Anjali Gupta   |   23 | 9988123456 | Jaipur     |
+|         10 | Rohit Das      |   26 | 9765432109 | Ahmedabad  |
+|         11 | Suresh Patel   |   35 | 9876123450 | Surat      |
+|         12 | Meena Iyer     |   31 | 9001122334 | Chennai    |
+|         13 | Naveen Kumar   |   33 | 9011223344 | Bangalore  |
+|         14 | Divya Sharma   |   22 | 9022334455 | Delhi      |
+|         15 | Karthik R      |   28 | 9033445566 | Hyderabad  |
+|         16 | Priya Singh    |   24 | 9044556677 | Lucknow    |
+|         17 | Manoj Tiwari   |   36 | 9055667788 | Varanasi   |
+|         18 | Ritika Jain    |   27 | 9066778899 | Indore     |
+|         19 | Ajay Yadav     |   32 | 9077889900 | Patna      |
+|         20 | Swathi N       |   23 | 9088990011 | Mysore     |
+|         21 | Deepak Mishra  |   34 | 9099001122 | Bhopal     |
+|         22 | Kavya S        |   21 | 9100112233 | Coimbatore |
+|         23 | Harish K       |   29 | 9111223344 | Salem      |
+|         24 | Nisha Arora    |   26 | 9122334455 | Chandigarh |
+|         25 | Gopal Krishna  |   37 | 9133445566 | Vijayawada |
+|         26 | Anand P        |   28 | 9144556677 | Tirupati   |
+|         27 | Shreya Bose    |   25 | 9155667788 | Kolkata    |
+|         28 | Ramesh Babu    |   40 | 9166778899 | Hyderabad  |
+|         29 | Lakshmi Devi   |   38 | 9177889900 | Madurai    |
+|         30 | Sanjay Gupta   |   35 | 9188990011 | Delhi      |
+|         31 | Tejaswini M    |   22 | 9199001122 | Bangalore  |
+|         32 | Varun Khanna   |   31 | 9200112233 | Noida      |
+|         33 | Pavan Kumar    |   27 | 9211223344 | Warangal   |
+|         34 | Aishwarya Rai  |   29 | 9222334455 | Mumbai     |
+|         35 | Siddharth Jain |   33 | 9233445566 | Jaipur     |
+|         36 | Keerthi R      |   24 | 9244556677 | Hyderabad  |
+|         37 | Bhavesh Shah   |   36 | 9255667788 | Ahmedabad  |
+|         38 | Anusha K       |   23 | 9266778899 | Vizag      |
+|         39 | Ravi Teja      |   28 | 9277889900 | Vijayawada |
+|         40 | Pallavi N      |   26 | 9288990011 | Chennai    |
+|         41 | Sunil Dutt     |   39 | 9299001122 | Mumbai     |
+|         42 | Geeta Kapoor   |   34 | 9300112233 | Delhi      |
+|         43 | Nitin Agarwal  |   32 | 9311223344 | Kanpur     |
+|         44 | Harika P       |   21 | 9322334455 | Guntur     |
+|         45 | Prakash R      |   37 | 9333445566 | Coimbatore |
+|         46 | Soumya S       |   25 | 9344556677 | Kochi      |
+|         47 | Raghavendra    |   41 | 9355667788 | Bangalore  |
+|         48 | Padmaja        |   36 | 9366778899 | Hyderabad  |
+|         49 | Yogesh Patil   |   30 | 9377889900 | Pune       |
+|         50 | Chitra V       |   28 | 9388990011 | Trivandrum |
++------------+----------------+------+------------+------------+
+50 rows in set (0.00 sec)
+
+mysql> select * from customers
+    -> where address='hyderabad';
++------------+-------------+------+------------+-----------+
+| CustomerID | Name        | Age  | Phone      | Address   |
++------------+-------------+------+------------+-----------+
+|          1 | Neha Priya  |   21 | 9876543210 | Hyderabad |
+|          8 | Kiran Rao   |   29 | 9345678901 | Hyderabad |
+|         15 | Karthik R   |   28 | 9033445566 | Hyderabad |
+|         28 | Ramesh Babu |   40 | 9166778899 | Hyderabad |
+|         36 | Keerthi R   |   24 | 9244556677 | Hyderabad |
+|         48 | Padmaja     |   36 | 9366778899 | Hyderabad |
++------------+-------------+------+------------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> select * from accounts
+    -> where balance<10000;
++-----------+------------+----------+-------------+---------+
+| AccountID | CustomerID | BranchID | AccountType | Balance |
++-----------+------------+----------+-------------+---------+
+|         1 |          1 |        1 | Savings     | 5000.00 |
+|         3 |          3 |        1 | Savings     | 8000.00 |
+|         5 |          5 |        2 | Savings     | 6000.00 |
+|         7 |          7 |        3 | Savings     | 7500.00 |
+|         9 |          9 |        3 | Savings     | 9000.00 |
+|        11 |         11 |        4 | Savings     | 4000.00 |
+|        13 |         13 |        5 | Savings     | 6500.00 |
+|        15 |         15 |        5 | Savings     | 7200.00 |
+|        17 |         17 |        6 | Savings     | 5300.00 |
+|        19 |         19 |        7 | Savings     | 8700.00 |
+|        21 |         21 |        7 | Savings     | 6100.00 |
+|        23 |         23 |        8 | Savings     | 7800.00 |
+|        25 |         25 |        9 | Savings     | 8200.00 |
+|        27 |         27 |        9 | Savings     | 9100.00 |
+|        29 |         29 |       10 | Savings     | 4700.00 |
+|        31 |         31 |        1 | Savings     | 5500.00 |
+|        33 |         33 |        2 | Savings     | 6800.00 |
+|        35 |         35 |        3 | Savings     | 7200.00 |
+|        37 |         37 |        4 | Savings     | 8800.00 |
+|        39 |         39 |        5 | Savings     | 9300.00 |
+|        41 |         41 |        6 | Savings     | 5100.00 |
+|        43 |         43 |        7 | Savings     | 7600.00 |
+|        45 |         45 |        8 | Savings     | 8400.00 |
+|        47 |         47 |        9 | Savings     | 6600.00 |
+|        49 |         49 |       10 | Savings     | 9700.00 |
++-----------+------------+----------+-------------+---------+
+25 rows in set (0.00 sec)
+
+mysql> -- 3.count total number of accounts
+mysql> SELECT COUNT(*) AS Total_Accounts
+    -> FROM Accounts;
++----------------+
+| Total_Accounts |
++----------------+
+|             50 |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> -- 4. find total balance in a bank
+mysql> select sum(balance)as total_balance
+    -> from accounts;
++---------------+
+| total_balance |
++---------------+
+|     882100.00 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> -- show highest loan amount
+mysql> select * from loans;
++--------+------------+----------+------------+--------------+------------+
+| LoanID | CustomerID | BranchID | LoanAmount | InterestRate | LoanStatus |
++--------+------------+----------+------------+--------------+------------+
+|      1 |          1 |        3 |   50000.00 |         7.50 | Approved   |
+|      2 |          2 |        5 |  120000.00 |         8.20 | Pending    |
+|      3 |          3 |        2 |   75000.00 |         7.80 | Rejected   |
+|      4 |          4 |        1 |  200000.00 |         9.00 | Approved   |
+|      5 |          5 |        4 |  150000.00 |         8.50 | Pending    |
+|      6 |          6 |        6 |  300000.00 |         9.20 | Approved   |
+|      7 |          7 |        3 |   45000.00 |         7.00 | Rejected   |
+|      8 |          8 |        2 |   98000.00 |         8.10 | Approved   |
+|      9 |          9 |        5 |   67000.00 |         7.90 | Pending    |
+|     10 |         10 |        1 |  250000.00 |         9.50 | Approved   |
+|     11 |         11 |        4 |  110000.00 |         8.30 | Rejected   |
+|     12 |         12 |        6 |   90000.00 |         7.70 | Approved   |
+|     13 |         13 |        3 |  135000.00 |         8.60 | Pending    |
+|     14 |         14 |        2 |   40000.00 |         7.20 | Approved   |
+|     15 |         15 |        5 |  220000.00 |         9.10 | Rejected   |
+|     16 |         16 |        1 |  175000.00 |         8.80 | Approved   |
+|     17 |         17 |        4 |   60000.00 |         7.40 | Pending    |
+|     18 |         18 |        6 |  310000.00 |         9.30 | Approved   |
+|     19 |         19 |        3 |   47000.00 |         7.10 | Rejected   |
+|     20 |         20 |        2 |   82000.00 |         8.00 | Approved   |
+|     21 |         21 |        5 |   99000.00 |         8.20 | Pending    |
+|     22 |         22 |        1 |  260000.00 |         9.40 | Approved   |
+|     23 |         23 |        4 |  145000.00 |         8.50 | Rejected   |
+|     24 |         24 |        6 |   70000.00 |         7.60 | Approved   |
+|     25 |         25 |        3 |  180000.00 |         8.90 | Pending    |
+|     26 |         26 |        2 |   55000.00 |         7.30 | Approved   |
+|     27 |         27 |        5 |  210000.00 |         9.00 | Rejected   |
+|     28 |         28 |        1 |  160000.00 |         8.70 | Approved   |
+|     29 |         29 |        4 |   68000.00 |         7.50 | Pending    |
+|     30 |         30 |        6 |  305000.00 |         9.20 | Approved   |
+|     31 |         31 |        3 |   49000.00 |         7.20 | Rejected   |
+|     32 |         32 |        2 |   88000.00 |         8.10 | Approved   |
+|     33 |         33 |        5 |  102000.00 |         8.30 | Pending    |
+|     34 |         34 |        1 |  275000.00 |         9.60 | Approved   |
+|     35 |         35 |        4 |  155000.00 |         8.60 | Rejected   |
+|     36 |         36 |        6 |   72000.00 |         7.70 | Approved   |
+|     37 |         37 |        3 |  185000.00 |         8.90 | Pending    |
+|     38 |         38 |        2 |   58000.00 |         7.40 | Approved   |
+|     39 |         39 |        5 |  215000.00 |         9.10 | Rejected   |
+|     40 |         40 |        1 |  165000.00 |         8.80 | Approved   |
+|     41 |         41 |        4 |   69000.00 |         7.60 | Pending    |
+|     42 |         42 |        6 |  315000.00 |         9.30 | Approved   |
+|     43 |         43 |        3 |   51000.00 |         7.30 | Rejected   |
+|     44 |         44 |        2 |   91000.00 |         8.20 | Approved   |
+|     45 |         45 |        5 |  105000.00 |         8.40 | Pending    |
+|     46 |         46 |        1 |  280000.00 |         9.70 | Approved   |
+|     47 |         47 |        4 |  158000.00 |         8.70 | Rejected   |
+|     48 |         48 |        6 |   74000.00 |         7.80 | Approved   |
+|     49 |         49 |        3 |  190000.00 |         9.00 | Pending    |
+|     50 |         50 |        2 |   60000.00 |         7.50 | Approved   |
++--------+------------+----------+------------+--------------+------------+
+50 rows in set (0.00 sec)
+
+mysql> select max(loanamount)as highest loan
+    -> from loans;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'loan
+from loans' at line 1
+mysql> select max(loanamount)as highest_loans
+    -> from loans;
++---------------+
+| highest_loans |
++---------------+
+|     315000.00 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> -- show lowest intrest rate
+mysql> SELECT MIN(InterestRate) AS Lowest_Interest
+    -> FROM Loans;
++-----------------+
+| Lowest_Interest |
++-----------------+
+|            7.00 |
++-----------------+
+1 row in set (0.00 sec)
+
+mysql> -- count loan by status
+mysql> Terminal close -- exit!
+mysql> use bank_system;
+Database changed
+mysql> SELECT LoanStatus, COUNT(*) AS Total
+    -> FROM Loans
+    -> GROUP BY LoanStatus;
++------------+-------+
+| LoanStatus | Total |
++------------+-------+
+| Approved   |    25 |
+| Pending    |    13 |
+| Rejected   |    12 |
++------------+-------+
+3 rows in set (0.00 sec)
+
+mysql> -- show number of accounts per branch
+mysql> SELECT BranchID, COUNT(*) AS Total_Accounts
+    -> FROM Accounts
+    -> GROUP BY BranchID;
++----------+----------------+
+| BranchID | Total_Accounts |
++----------+----------------+
+|        1 |              5 |
+|        2 |              5 |
+|        3 |              5 |
+|        4 |              5 |
+|        5 |              5 |
+|        6 |              5 |
+|        7 |              5 |
+|        8 |              5 |
+|        9 |              5 |
+|       10 |              5 |
++----------+----------------+
+10 rows in set (0.00 sec)
+
+mysql> -- show total loan amount per branch
+mysql> SELECT BranchID, SUM(LoanAmount) AS Total_Loan
+    -> FROM Loans
+    -> GROUP BY BranchID;
++----------+------------+
+| BranchID | Total_Loan |
++----------+------------+
+|        1 | 1765000.00 |
+|        2 |  647000.00 |
+|        3 |  932000.00 |
+|        4 |  915000.00 |
+|        5 | 1138000.00 |
+|        6 | 1536000.00 |
++----------+------------+
+6 rows in set (0.00 sec)
+
+mysql> -- show loan details with customer
+mysql> SELECT C.CustomerName, L.LoanAmount, L.LoanStatus
+    -> FROM Loans L
+    -> JOIN Customers C
+    -> ON L.CustomerID = C.CustomerID;
+ERROR 1054 (42S22): Unknown column 'C.CustomerName' in 'field list'
+mysql> -- find total account balance for each customer
+mysql> select * from customers;
++------------+----------------+------+------------+------------+
+| CustomerID | Name           | Age  | Phone      | Address    |
++------------+----------------+------+------------+------------+
+|          1 | Neha Priya     |   21 | 9876543210 | Hyderabad  |
+|          2 | Rahul Sharma   |   25 | 9123456780 | Delhi      |
+|          3 | Amit Kumar     |   30 | 9012345678 | Mumbai     |
+|          4 | Sneha Reddy    |   22 | 9988776655 | Chennai    |
+|          5 | Vikram Singh   |   28 | 9090909090 | Bangalore  |
+|          6 | Pooja Mehta    |   24 | 9876501234 | Kolkata    |
+|          7 | Arjun Verma    |   27 | 9123409876 | Pune       |
+|          8 | Kiran Rao      |   29 | 9345678901 | Hyderabad  |
+|          9 | Anjali Gupta   |   23 | 9988123456 | Jaipur     |
+|         10 | Rohit Das      |   26 | 9765432109 | Ahmedabad  |
+|         11 | Suresh Patel   |   35 | 9876123450 | Surat      |
+|         12 | Meena Iyer     |   31 | 9001122334 | Chennai    |
+|         13 | Naveen Kumar   |   33 | 9011223344 | Bangalore  |
+|         14 | Divya Sharma   |   22 | 9022334455 | Delhi      |
+|         15 | Karthik R      |   28 | 9033445566 | Hyderabad  |
+|         16 | Priya Singh    |   24 | 9044556677 | Lucknow    |
+|         17 | Manoj Tiwari   |   36 | 9055667788 | Varanasi   |
+|         18 | Ritika Jain    |   27 | 9066778899 | Indore     |
+|         19 | Ajay Yadav     |   32 | 9077889900 | Patna      |
+|         20 | Swathi N       |   23 | 9088990011 | Mysore     |
+|         21 | Deepak Mishra  |   34 | 9099001122 | Bhopal     |
+|         22 | Kavya S        |   21 | 9100112233 | Coimbatore |
+|         23 | Harish K       |   29 | 9111223344 | Salem      |
+|         24 | Nisha Arora    |   26 | 9122334455 | Chandigarh |
+|         25 | Gopal Krishna  |   37 | 9133445566 | Vijayawada |
+|         26 | Anand P        |   28 | 9144556677 | Tirupati   |
+|         27 | Shreya Bose    |   25 | 9155667788 | Kolkata    |
+|         28 | Ramesh Babu    |   40 | 9166778899 | Hyderabad  |
+|         29 | Lakshmi Devi   |   38 | 9177889900 | Madurai    |
+|         30 | Sanjay Gupta   |   35 | 9188990011 | Delhi      |
+|         31 | Tejaswini M    |   22 | 9199001122 | Bangalore  |
+|         32 | Varun Khanna   |   31 | 9200112233 | Noida      |
+|         33 | Pavan Kumar    |   27 | 9211223344 | Warangal   |
+|         34 | Aishwarya Rai  |   29 | 9222334455 | Mumbai     |
+|         35 | Siddharth Jain |   33 | 9233445566 | Jaipur     |
+|         36 | Keerthi R      |   24 | 9244556677 | Hyderabad  |
+|         37 | Bhavesh Shah   |   36 | 9255667788 | Ahmedabad  |
+|         38 | Anusha K       |   23 | 9266778899 | Vizag      |
+|         39 | Ravi Teja      |   28 | 9277889900 | Vijayawada |
+|         40 | Pallavi N      |   26 | 9288990011 | Chennai    |
+|         41 | Sunil Dutt     |   39 | 9299001122 | Mumbai     |
+|         42 | Geeta Kapoor   |   34 | 9300112233 | Delhi      |
+|         43 | Nitin Agarwal  |   32 | 9311223344 | Kanpur     |
+|         44 | Harika P       |   21 | 9322334455 | Guntur     |
+|         45 | Prakash R      |   37 | 9333445566 | Coimbatore |
+|         46 | Soumya S       |   25 | 9344556677 | Kochi      |
+|         47 | Raghavendra    |   41 | 9355667788 | Bangalore  |
+|         48 | Padmaja        |   36 | 9366778899 | Hyderabad  |
+|         49 | Yogesh Patil   |   30 | 9377889900 | Pune       |
+|         50 | Chitra V       |   28 | 9388990011 | Trivandrum |
++------------+----------------+------+------------+------------+
+50 rows in set (0.00 sec)
+
+mysql> select c.customerID,c.name,sum(a.balance)as total_balance
+    -> from customers c
+    -> join accounts a on c.customerId=a.customerId
+    -> group by c.customerId,c.name;
++------------+----------------+---------------+
+| customerID | name           | total_balance |
++------------+----------------+---------------+
+|          1 | Neha Priya     |       5000.00 |
+|          2 | Rahul Sharma   |      12000.00 |
+|          3 | Amit Kumar     |       8000.00 |
+|          4 | Sneha Reddy    |      15000.00 |
+|          5 | Vikram Singh   |       6000.00 |
+|          6 | Pooja Mehta    |      20000.00 |
+|          7 | Arjun Verma    |       7500.00 |
+|          8 | Kiran Rao      |      18000.00 |
+|          9 | Anjali Gupta   |       9000.00 |
+|         10 | Rohit Das      |      22000.00 |
+|         11 | Suresh Patel   |       4000.00 |
+|         12 | Meena Iyer     |      17000.00 |
+|         13 | Naveen Kumar   |       6500.00 |
+|         14 | Divya Sharma   |      21000.00 |
+|         15 | Karthik R      |       7200.00 |
+|         16 | Priya Singh    |      25000.00 |
+|         17 | Manoj Tiwari   |       5300.00 |
+|         18 | Ritika Jain    |      19000.00 |
+|         19 | Ajay Yadav     |       8700.00 |
+|         20 | Swathi N       |      23000.00 |
+|         21 | Deepak Mishra  |       6100.00 |
+|         22 | Kavya S        |      24000.00 |
+|         23 | Harish K       |       7800.00 |
+|         24 | Nisha Arora    |      26000.00 |
+|         25 | Gopal Krishna  |       8200.00 |
+|         26 | Anand P        |      27000.00 |
+|         27 | Shreya Bose    |       9100.00 |
+|         28 | Ramesh Babu    |      30000.00 |
+|         29 | Lakshmi Devi   |       4700.00 |
+|         30 | Sanjay Gupta   |      28000.00 |
+|         31 | Tejaswini M    |       5500.00 |
+|         32 | Varun Khanna   |      32000.00 |
+|         33 | Pavan Kumar    |       6800.00 |
+|         34 | Aishwarya Rai  |      35000.00 |
+|         35 | Siddharth Jain |       7200.00 |
+|         36 | Keerthi R      |      33000.00 |
+|         37 | Bhavesh Shah   |       8800.00 |
+|         38 | Anusha K       |      36000.00 |
+|         39 | Ravi Teja      |       9300.00 |
+|         40 | Pallavi N      |      40000.00 |
+|         41 | Sunil Dutt     |       5100.00 |
+|         42 | Geeta Kapoor   |      37000.00 |
+|         43 | Nitin Agarwal  |       7600.00 |
+|         44 | Harika P       |      39000.00 |
+|         45 | Prakash R      |       8400.00 |
+|         46 | Soumya S       |      42000.00 |
+|         47 | Raghavendra    |       6600.00 |
+|         48 | Padmaja        |      38000.00 |
+|         49 | Yogesh Patil   |       9700.00 |
+|         50 | Chitra V       |      45000.00 |
++------------+----------------+---------------+
+50 rows in set (0.00 sec)
+
+mysql> -- show customer who have more than 1 account
+mysql> select * from accounts;
++-----------+------------+----------+-------------+----------+
+| AccountID | CustomerID | BranchID | AccountType | Balance  |
++-----------+------------+----------+-------------+----------+
+|         1 |          1 |        1 | Savings     |  5000.00 |
+|         2 |          2 |        1 | Current     | 12000.00 |
+|         3 |          3 |        1 | Savings     |  8000.00 |
+|         4 |          4 |        2 | Current     | 15000.00 |
+|         5 |          5 |        2 | Savings     |  6000.00 |
+|         6 |          6 |        2 | Current     | 20000.00 |
+|         7 |          7 |        3 | Savings     |  7500.00 |
+|         8 |          8 |        3 | Current     | 18000.00 |
+|         9 |          9 |        3 | Savings     |  9000.00 |
+|        10 |         10 |        4 | Current     | 22000.00 |
+|        11 |         11 |        4 | Savings     |  4000.00 |
+|        12 |         12 |        4 | Current     | 17000.00 |
+|        13 |         13 |        5 | Savings     |  6500.00 |
+|        14 |         14 |        5 | Current     | 21000.00 |
+|        15 |         15 |        5 | Savings     |  7200.00 |
+|        16 |         16 |        6 | Current     | 25000.00 |
+|        17 |         17 |        6 | Savings     |  5300.00 |
+|        18 |         18 |        6 | Current     | 19000.00 |
+|        19 |         19 |        7 | Savings     |  8700.00 |
+|        20 |         20 |        7 | Current     | 23000.00 |
+|        21 |         21 |        7 | Savings     |  6100.00 |
+|        22 |         22 |        8 | Current     | 24000.00 |
+|        23 |         23 |        8 | Savings     |  7800.00 |
+|        24 |         24 |        8 | Current     | 26000.00 |
+|        25 |         25 |        9 | Savings     |  8200.00 |
+|        26 |         26 |        9 | Current     | 27000.00 |
+|        27 |         27 |        9 | Savings     |  9100.00 |
+|        28 |         28 |       10 | Current     | 30000.00 |
+|        29 |         29 |       10 | Savings     |  4700.00 |
+|        30 |         30 |       10 | Current     | 28000.00 |
+|        31 |         31 |        1 | Savings     |  5500.00 |
+|        32 |         32 |        1 | Current     | 32000.00 |
+|        33 |         33 |        2 | Savings     |  6800.00 |
+|        34 |         34 |        2 | Current     | 35000.00 |
+|        35 |         35 |        3 | Savings     |  7200.00 |
+|        36 |         36 |        3 | Current     | 33000.00 |
+|        37 |         37 |        4 | Savings     |  8800.00 |
+|        38 |         38 |        4 | Current     | 36000.00 |
+|        39 |         39 |        5 | Savings     |  9300.00 |
+|        40 |         40 |        5 | Current     | 40000.00 |
+|        41 |         41 |        6 | Savings     |  5100.00 |
+|        42 |         42 |        6 | Current     | 37000.00 |
+|        43 |         43 |        7 | Savings     |  7600.00 |
+|        44 |         44 |        7 | Current     | 39000.00 |
+|        45 |         45 |        8 | Savings     |  8400.00 |
+|        46 |         46 |        8 | Current     | 42000.00 |
+|        47 |         47 |        9 | Savings     |  6600.00 |
+|        48 |         48 |        9 | Current     | 38000.00 |
+|        49 |         49 |       10 | Savings     |  9700.00 |
+|        50 |         50 |       10 | Current     | 45000.00 |
++-----------+------------+----------+-------------+----------+
+50 rows in set (0.00 sec)
+
+mysql> SELECT CustomerID, COUNT(AccountID) AS Total_Accounts
+    -> FROM Accounts
+    -> GROUP BY CustomerID
+    -> HAVING COUNT(AccountID) > 1;
+Empty set (0.00 sec)
+
+mysql> -- find the branch with highest loan amount
+mysql> SELECT BranchID, SUM(LoanAmount) AS Total_Loan
+    -> FROM Loans
+    -> GROUP BY BranchID
+    -> ORDER BY Total_Loan DESC
+    -> LIMIT 1;
++----------+------------+
+| BranchID | Total_Loan |
++----------+------------+
+|        1 | 1765000.00 |
++----------+------------+
+1 row in set (0.00 sec)
+
+mysql> -- show customers who have both accounts and loan
+mysql> select disticnt c.customerId,c,name
+    -> from customers c
+    -> join accounts a on c.customerId=a.customerId
+    -> join loans l on c.customerid=l.loanid;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.customerId,c,name
+from customers c
+join accounts a on c.customerId=a.customerId' at line 1
+mysql> select disticnt c.customerId,c.name
+    -> from customers c
+    -> join accounts a on c.customerId=a.customerId
+    -> join loans l on c.customerid=l.loanid;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.customerId,c.name
+from customers c
+join accounts a on c.customerId=a.customerId' at line 1
+mysql> SELECT DISTINCT C.CustomerID, C.CustomerName
+    -> FROM Customers C
+    -> JOIN Accounts A ON C.CustomerID = A.CustomerID
+    -> JOIN Loans L ON C.CustomerID = L.CustomerID;
+ERROR 1054 (42S22): Unknown column 'C.CustomerName' in 'field list'
+mysql> SELECT DISTINCT C.CustomerID, C.Name
+    -> FROM Customers C
+    -> JOIN Accounts A ON C.CustomerID = A.CustomerID
+    -> JOIN Loans L ON C.CustomerID = L.CustomerID;
++------------+----------------+
+| CustomerID | Name           |
++------------+----------------+
+|          1 | Neha Priya     |
+|          2 | Rahul Sharma   |
+|          3 | Amit Kumar     |
+|          4 | Sneha Reddy    |
+|          5 | Vikram Singh   |
+|          6 | Pooja Mehta    |
+|          7 | Arjun Verma    |
+|          8 | Kiran Rao      |
+|          9 | Anjali Gupta   |
+|         10 | Rohit Das      |
+|         11 | Suresh Patel   |
+|         12 | Meena Iyer     |
+|         13 | Naveen Kumar   |
+|         14 | Divya Sharma   |
+|         15 | Karthik R      |
+|         16 | Priya Singh    |
+|         17 | Manoj Tiwari   |
+|         18 | Ritika Jain    |
+|         19 | Ajay Yadav     |
+|         20 | Swathi N       |
+|         21 | Deepak Mishra  |
+|         22 | Kavya S        |
+|         23 | Harish K       |
+|         24 | Nisha Arora    |
+|         25 | Gopal Krishna  |
+|         26 | Anand P        |
+|         27 | Shreya Bose    |
+|         28 | Ramesh Babu    |
+|         29 | Lakshmi Devi   |
+|         30 | Sanjay Gupta   |
+|         31 | Tejaswini M    |
+|         32 | Varun Khanna   |
+|         33 | Pavan Kumar    |
+|         34 | Aishwarya Rai  |
+|         35 | Siddharth Jain |
+|         36 | Keerthi R      |
+|         37 | Bhavesh Shah   |
+|         38 | Anusha K       |
+|         39 | Ravi Teja      |
+|         40 | Pallavi N      |
+|         41 | Sunil Dutt     |
+|         42 | Geeta Kapoor   |
+|         43 | Nitin Agarwal  |
+|         44 | Harika P       |
+|         45 | Prakash R      |
+|         46 | Soumya S       |
+|         47 | Raghavendra    |
+|         48 | Padmaja        |
+|         49 | Yogesh Patil   |
+|         50 | Chitra V       |
++------------+----------------+
+50 rows in set (0.00 sec)
+
+mysql> SELECT DISTINCT C.CustomerID, C.Name
+    -> FROM Customers C
+    -> JOIN Accounts A ON C.CustomerID = A.CustomerID
+    -> JOIN Loans L ON C.CustomerID = L.CustomerID limit 5;
++------------+--------------+
+| CustomerID | Name         |
++------------+--------------+
+|          1 | Neha Priya   |
+|          2 | Rahul Sharma |
+|          3 | Amit Kumar   |
+|          4 | Sneha Reddy  |
+|          5 | Vikram Singh |
++------------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> -- find average account balance per branch
+mysql> SELECT BranchID, AVG(Balance) AS Avg_Balance
+    -> FROM Accounts
+    -> GROUP BY BranchID;
++----------+--------------+
+| BranchID | Avg_Balance  |
++----------+--------------+
+|        1 | 12500.000000 |
+|        2 | 16560.000000 |
+|        3 | 14940.000000 |
+|        4 | 17560.000000 |
+|        5 | 16800.000000 |
+|        6 | 18280.000000 |
+|        7 | 16880.000000 |
+|        8 | 21640.000000 |
+|        9 | 17780.000000 |
+|       10 | 23480.000000 |
++----------+--------------+
+10 rows in set (0.00 sec)
+
+mysql> -- Show total transactions amount per account
+mysql> SELECT AccountID, SUM(Amount) AS Total_Transactions
+    -> FROM Transactions
+    -> GROUP BY AccountID;
++-----------+--------------------+
+| AccountID | Total_Transactions |
++-----------+--------------------+
+|         1 |            2000.00 |
+|         2 |            1500.00 |
+|         3 |            3000.00 |
+|         4 |            2500.00 |
+|         5 |            1800.00 |
+|         6 |            2200.00 |
+|         7 |            2700.00 |
+|         8 |            3500.00 |
+|         9 |            1200.00 |
+|        10 |            4000.00 |
+|        11 |            1000.00 |
+|        12 |            2800.00 |
+|        13 |            3100.00 |
+|        14 |            2600.00 |
+|        15 |            1700.00 |
+|        16 |            5000.00 |
+|        17 |            2000.00 |
+|        18 |            2100.00 |
+|        19 |            3300.00 |
+|        20 |            2900.00 |
+|        21 |            1500.00 |
+|        22 |            3400.00 |
+|        23 |            3700.00 |
+|        24 |            4200.00 |
+|        25 |            1900.00 |
+|        26 |            4500.00 |
+|        27 |            3800.00 |
+|        28 |            5200.00 |
+|        29 |            1600.00 |
+|        30 |            4100.00 |
+|        31 |            2300.00 |
+|        32 |            6000.00 |
+|        33 |            2400.00 |
+|        34 |            4700.00 |
+|        35 |            2800.00 |
+|        36 |            3900.00 |
+|        37 |            2600.00 |
+|        38 |            5100.00 |
+|        39 |            4300.00 |
+|        40 |            3000.00 |
+|        41 |            2200.00 |
+|        42 |            4800.00 |
+|        43 |            3600.00 |
+|        44 |            2700.00 |
+|        45 |            3400.00 |
+|        46 |            5500.00 |
+|        47 |            2000.00 |
+|        48 |            4600.00 |
+|        49 |            4900.00 |
+|        50 |            3100.00 |
++-----------+--------------------+
+50 rows in set (0.00 sec)
+
+mysql> -- Find accounts with transactions greater than average transaction amount
+mysql> SELECT * FROM Transactions
+    -> WHERE Amount > (
+    ->     SELECT AVG(Amount) FROM Transactions
+    -> );
++---------------+-----------+-----------------+---------+---------------------+
+| TransactionID | AccountID | TransactionType | Amount  | TransactionDate     |
++---------------+-----------+-----------------+---------+---------------------+
+|             8 |         8 | Transfer        | 3500.00 | 2024-01-18 17:55:00 |
+|            10 |        10 | Deposit         | 4000.00 | 2024-01-22 12:10:00 |
+|            16 |        16 | Deposit         | 5000.00 | 2024-02-12 13:50:00 |
+|            19 |        19 | Deposit         | 3300.00 | 2024-02-20 08:55:00 |
+|            22 |        22 | Withdraw        | 3400.00 | 2024-03-03 11:25:00 |
+|            23 |        23 | Deposit         | 3700.00 | 2024-03-05 14:45:00 |
+|            24 |        24 | Transfer        | 4200.00 | 2024-03-08 16:20:00 |
+|            26 |        26 | Deposit         | 4500.00 | 2024-03-12 13:15:00 |
+|            27 |        27 | Transfer        | 3800.00 | 2024-03-15 15:30:00 |
+|            28 |        28 | Deposit         | 5200.00 | 2024-03-18 17:45:00 |
+|            30 |        30 | Deposit         | 4100.00 | 2024-03-22 12:00:00 |
+|            32 |        32 | Deposit         | 6000.00 | 2024-04-03 11:10:00 |
+|            34 |        34 | Transfer        | 4700.00 | 2024-04-08 16:40:00 |
+|            36 |        36 | Deposit         | 3900.00 | 2024-04-12 13:30:00 |
+|            38 |        38 | Transfer        | 5100.00 | 2024-04-18 17:50:00 |
+|            39 |        39 | Deposit         | 4300.00 | 2024-04-20 08:10:00 |
+|            42 |        42 | Transfer        | 4800.00 | 2024-05-03 11:55:00 |
+|            43 |        43 | Deposit         | 3600.00 | 2024-05-05 14:05:00 |
+|            45 |        45 | Transfer        | 3400.00 | 2024-05-10 10:35:00 |
+|            46 |        46 | Deposit         | 5500.00 | 2024-05-12 13:45:00 |
+|            48 |        48 | Transfer        | 4600.00 | 2024-05-18 17:20:00 |
+|            49 |        49 | Deposit         | 4900.00 | 2024-05-20 08:45:00 |
++---------------+-----------+-----------------+---------+---------------------+
+22 rows in set (0.00 sec)
+
+mysql> -- Find customers who have highest loan amount
+mysql> SELECT C.CustomerName, L.LoanAmount
+    -> FROM Loans L
+    -> JOIN Customers C ON L.CustomerID = C.CustomerID
+    -> WHERE L.LoanAmount = (
+    ->     SELECT MAX(LoanAmount) FROM Loans
+    -> );
+ERROR 1054 (42S22): Unknown column 'C.CustomerName' in 'field list'
+mysql> SELECT C.Name, L.LoanAmount
+    -> FROM Loans L
+    -> JOIN Customers C ON L.CustomerID = C.CustomerID
+    -> WHERE L.LoanAmount = (
+    ->     SELECT MAX(LoanAmount) FROM Loans
+    -> );
++--------------+------------+
+| Name         | LoanAmount |
++--------------+------------+
+| Geeta Kapoor |  315000.00 |
++--------------+------------+
+1 row in set (0.00 sec)
+
+mysql> -- Show branches where total loan amount is greater than 2,00,000
+mysql> SELECT BranchID, SUM(LoanAmount) AS Total_Loan
+    -> FROM Loans
+    -> GROUP BY BranchID
+    -> HAVING SUM(LoanAmount) > 200000;
++----------+------------+
+| BranchID | Total_Loan |
++----------+------------+
+|        1 | 1765000.00 |
+|        2 |  647000.00 |
+|        3 |  932000.00 |
+|        4 |  915000.00 |
+|        5 | 1138000.00 |
+|        6 | 1536000.00 |
++----------+------------+
+6 rows in set (0.00 sec)
+
+mysql> -- Find top 3 customers with highest total account balance
+mysql> SELECT CustomerID, SUM(Balance) AS Total_Balance
+    -> FROM Accounts
+    -> GROUP BY CustomerID
+    -> ORDER BY Total_Balance DESC
+    -> LIMIT 3;
++------------+---------------+
+| CustomerID | Total_Balance |
++------------+---------------+
+|         50 |      45000.00 |
+|         46 |      42000.00 |
+|         40 |      40000.00 |
++------------+---------------+
+3 rows in set (0.00 sec)
+
+mysql> -- Find customers whose total balance is greater than average total balance of all customers
+mysql> SELECT CustomerID, SUM(Balance) AS Total_Balance
+    -> FROM Accounts
+    -> GROUP BY CustomerID
+    -> HAVING SUM(Balance) > (
+    ->     SELECT AVG(TotalBal)
+    ->     FROM (
+    ->         SELECT SUM(Balance) AS TotalBal
+    ->         FROM Accounts
+    ->         GROUP BY CustomerID
+    ->     ) AS temp
+    -> );
++------------+---------------+
+| CustomerID | Total_Balance |
++------------+---------------+
+|          6 |      20000.00 |
+|          8 |      18000.00 |
+|         10 |      22000.00 |
+|         14 |      21000.00 |
+|         16 |      25000.00 |
+|         18 |      19000.00 |
+|         20 |      23000.00 |
+|         22 |      24000.00 |
+|         24 |      26000.00 |
+|         26 |      27000.00 |
+|         28 |      30000.00 |
+|         30 |      28000.00 |
+|         32 |      32000.00 |
+|         34 |      35000.00 |
+|         36 |      33000.00 |
+|         38 |      36000.00 |
+|         40 |      40000.00 |
+|         42 |      37000.00 |
+|         44 |      39000.00 |
+|         46 |      42000.00 |
+|         48 |      38000.00 |
+|         50 |      45000.00 |
++------------+---------------+
+22 rows in set (0.00 sec)
+
+mysql> -- Find the second highest loan amount
+mysql> SELECT MAX(LoanAmount) AS Second_Highest
+    -> FROM Loans
+    -> WHERE LoanAmount < (SELECT MAX(LoanAmount) FROM Loans);
++----------------+
+| Second_Highest |
++----------------+
+|      310000.00 |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> -- Find accounts that have no transactions
+mysql> SELECT A.AccountID
+    -> FROM Accounts A
+    -> LEFT JOIN Transactions T
+    -> ON A.AccountID = T.AccountID
+    -> WHERE T.AccountID IS NULL;
+Empty set (0.00 sec)
+
+mysql> -- Find customers who have accounts in more than one branch
+mysql> SELECT CustomerID
+    -> FROM Accounts
+    -> GROUP BY CustomerID
+    -> HAVING COUNT(DISTINCT BranchID) > 1;
+Empty set (0.00 sec)
+
+mysql> -- Find the branch with maximum number of accounts
+mysql> SELECT BranchID, COUNT(*) AS Total_Accounts
+    -> FROM Accounts
+    -> GROUP BY BranchID
+    -> ORDER BY Total_Accounts DESC
+    -> LIMIT 1;
++----------+----------------+
+| BranchID | Total_Accounts |
++----------+----------------+
+|        1 |              5 |
++----------+----------------+
+1 row in set (0.00 sec)
+
+mysql> -- Find customers who have taken loan but do not have account
+mysql> SELECT L.CustomerID
+    -> FROM Loans L
+    -> LEFT JOIN Accounts A
+    -> ON L.CustomerID = A.CustomerID
+    -> WHERE A.CustomerID IS NULL;
+Empty set (0.00 sec)
+
